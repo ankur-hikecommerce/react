@@ -83,3 +83,35 @@ Each product returned from the API has a 'discount' property, which is currently
 Please add a new feature to the `Cart` component, which calculates a new 'Total price' using the products discount value.
 
 This updated total should be shown next to the original total and reflect the total price after applying discounts.
+
+## Solution
+
+### Task 1 - Upgrade Packages (MUI, React Router)
+
+`"@mui/material": "^5.17.1"`
+`"react-router-dom": "^6.30.1",`
+
+Above dependencies are upgraded.
+
+### Task 2 - Fix the Routing
+
+The routing was fixed to ensure the application runs without any issues. Added <BrowserRouter> on the index.tsx to fix the issue.
+
+![alt text](image.png)
+
+### Task 3 - React State Management
+
+Added the Persistent redux store. It uses redux-persist to save Redux state to a storage layer. This ensures that we don't have to maintain the local state across components and the state is persisted on refresh, navigation till the session is alive. This works well for ecommerce sites or sites with long forms. This state closes when the tab/browser is closed.
+
+### Task 4 - Making Improvements
+
+Redux state manages the user experience for managing the quantity
+
+### Task 5 - Feature Implementation
+
+Added the discount feature.
+
+![alt text](image-1.png)
+![alt text](image-2.png)
+![alt text](image-3.png)
+![alt text](image-4.png)
