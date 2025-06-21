@@ -115,3 +115,7 @@ Added the discount feature.
 ![alt text](image-2.png)
 ![alt text](image-3.png)
 ![alt text](image-4.png)
+
+Recording of the demo
+
+<video controls src="21.06.2025_21.49.40_REC.mp4" title="Title"></video>
