@@ -54,7 +54,7 @@ class ProductList extends React.Component<DispatchProps, ProductListState> {
   render() {
     return (
       <div>
-        <Cart text="Cart is::" />
+        <Cart />
         <Divider />
         <h1>Products</h1>
         <Grid

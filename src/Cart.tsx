@@ -5,6 +5,7 @@ import {
   ListItem,
   ListItemText,
   Typography,
+  Divider,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
@@ -13,6 +14,7 @@ type Product = {
   title: string;
   quantity: number;
   price: number;
+  discountPercentage?: number;
 };
 
 type CartProps = {
@@ -29,9 +31,16 @@ function Cart({
   );
   const [confirmed, setConfirmed] = useState(false);
 
-  const totalPrice = products.reduce(
-    (total, { price, quantity }) => total + price * quantity,
-    0
+  const { totalOriginal, totalDiscount, totalAfterDiscount } = products.reduce(
+    (acc, { price, quantity, discountPercentage }) => {
+      const original = price * quantity;
+      const discount = (original * (discountPercentage || 0)) / 100;
+      acc.totalOriginal += original;
+      acc.totalDiscount += discount;
+      acc.totalAfterDiscount += original - discount;
+      return acc;
+    },
+    { totalOriginal: 0, totalDiscount: 0, totalAfterDiscount: 0 }
   );
 
   const handleConfirm = () => {
@@ -47,18 +56,26 @@ function Cart({
           <ListItem key={index}>
             <ListItemText
               primary={product.title}
-              secondary={"Quantity: " + product.quantity}
+              secondary={`Quantity: ${product.quantity} | Price: ${
+                product.price
+              } ${
+                product.discountPercentage
+                  ? `| Discount: ${product.discountPercentage}%`
+                  : ""
+              }`}
             />
           </ListItem>
         ))}
       </List>
-      <div>
-        Total Price:{" "}
-        {products.reduce(
-          (total, { price, quantity }) => total + price * quantity,
-          0
-        )}
-      </div>
+
+      <Divider style={{ margin: "1rem 0" }} />
+
+      <Typography>Subtotal: {totalOriginal.toFixed(2)}</Typography>
+      <Typography>Discount: -{totalDiscount.toFixed(2)}</Typography>
+      <Typography variant="h6">
+        Total Payable: {totalAfterDiscount.toFixed(2)}
+      </Typography>
+
       {mode === "browse" ? (
         <Button
           style={{ marginBottom: 10 }}
@@ -94,12 +111,17 @@ function Cart({
           <ul>
             {products.map((p, i) => (
               <li key={i}>
-                {p.quantity} x {p.title} – {p.price * p.quantity}
+                {p.quantity} x {p.title} – ₹
+                {(
+                  p.price *
+                  p.quantity *
+                  (1 - (p.discountPercentage ?? 0) / 100)
+                ).toFixed(2)}
               </li>
             ))}
           </ul>
           <Typography>
-            <strong>Total: ₹{totalPrice}</strong>
+            <strong>Total Paid: {totalAfterDiscount.toFixed(2)}</strong>
           </Typography>
         </div>
       )}
