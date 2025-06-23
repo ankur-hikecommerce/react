@@ -81,6 +81,7 @@ function Cart({
           style={{ marginBottom: 10 }}
           href={"/checkout"}
           variant="contained"
+          disabled={totalAfterDiscount === 0}
         >
           Checkout
         </Button>
@@ -89,6 +90,7 @@ function Cart({
           style={{ marginBottom: 10 }}
           variant="contained"
           onClick={handleConfirm}
+          disabled={totalAfterDiscount === 0}
         >
           Confirm Order
         </Button>
